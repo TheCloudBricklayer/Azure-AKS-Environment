@@ -1,11 +1,26 @@
-on: [push]
+name: Azure_AKS_Deployment
 
-name: AzureLoginSample
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
+  init:
+    name: Init
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1
 
   build-and-deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
 
     - uses: azure/login@v1
